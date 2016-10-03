@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-4">
+      <form class="form-signin" action="/login" method="POST">
+        <h2 class="form-signin-heading">Please sign in</h2>
+        <label for="inputEmail" class="sr-only">Email address</label>
+        <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
+        <% if (err && err.message) { %>
+        <div class="row top-buffer">
+          <div class="col-md-12">
+            <%= err.message %>
+          </div>
+        </div>
+        <% } %>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" value="remember-me"> Remember me
+          </label>
+        </div>
+        <button class="btn btn-md btn-primary btn-block" type="submit">Sign in</button>
+      </form>
+      <div class="row top-buffer">
+        <div class="col-md-12">
+          <a class="btn btn-md btn-danger btn-block" href="/register">Register</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> <!-- /container -->

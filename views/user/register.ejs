@@ -1,0 +1,34 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-4">
+      <form class="form-signin" action="/user" method="POST">
+        <h2 class="form-signin-heading">Please register</h2>
+        <label for="inputEmail" class="sr-only">Full Name</label>
+        <input type="text" id="inputName" name="name" class="form-control" placeholder="Full Name" required autofocus>
+
+        <label for="inputEmail" class="sr-only">Email address</label>
+        <input type="email" id="inputEmail" name="email" class="form-control" placeholder="Email address" required autofocus>
+
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required>
+        <% if (err && err.message) { %>
+        <div class="row top-buffer">
+          <div class="col-md-12">
+            <%= err.message %>
+          </div>
+        </div>
+        <% } %>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" value="remember-me"> Remember me
+          </label>
+        </div>
+        <button class="btn btn-md btn-primary btn-block" type="submit">Register</button>
+      </form>
+    </div>
+  </div>
+</div> <!-- /container -->
+<a href="https://slack.com/oauth/authorize?scope=identity.basic&client_id=86496927043.86497181619&redirect_uri=http://localhost:1337">
+  <img alt="Sign in with Slack" height="40" width="172" src="https://platform.slack-edge.com/img/sign_in_with_slack.png"
+  srcset="https://platform.slack-edge.com/img/sign_in_with_slack.png 1x, https://platform.slack-edge.com/img/sign_in_with_slack@2x.png 2x" />
+</a>
