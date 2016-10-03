@@ -19,9 +19,33 @@ module.exports = {
 	},
 
 	connect: function(req, res) {
-		console.log('--connect--');
 		console.log(req.allParams());
-		return res.redirect('user');
+		User.findOne({id: req.param('userId')}).exec(function(err, user) {
+			if(err) {
+				return res.redirect('user');
+			} else {
+				if (user.friends && user.friends.includes(req.user.id)) {
+					console.log('api cll skipped');
+					return res.redirect('chat/' + user.id);
+				} else {
+					// user.addFriend(req.user.id)
+					// req.user.addFriend(user.id)
+					var webClient = require('@slack/client').WebClient;
+					var wc = new webClient(req.user.slackInfo.token);
+					wc.channels.join(user.name, function(err, info) {
+						if(info.ok == true) {
+							var wc = new webClient(user.slackInfo.token);
+							wc.channels.join(user.name)
+						}
+						return res.redirect('chat/' + user.id);
+					});
+				}
+			}
+		});
+	},
+
+	chat: function(req, res) {
+		return res.view();
 	},
 
 	create: function(req, res) {

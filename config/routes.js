@@ -38,8 +38,12 @@ module.exports.routes = {
   'get /' : 'UserController.login',
   'get /login' : 'UserController.login',
   'post /login': 'UserController.process',
-  'get /register' : 'UserController.register',
-  'post /user' : 'UserController.create'
+  'get /register': 'UserController.register',
+  'post /user': 'UserController.create',
+  'get /user': 'UserController.index',
+  'get /user/slack': 'UserController.slack',
+  'get /user/connect/:userId': 'UserController.connect',
+  'get /chat/:userId': 'UserController.chat'
 
   /***************************************************************************
   *                                                                          *
