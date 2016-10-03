@@ -5,6 +5,7 @@
   "description": "a Sails application",
   "keywords": [],
   "dependencies": {
+    "@slack/client": "^3.6.0",
     "bcrypt": "^0.8.7",
     "ejs": "2.3.4",
     "grunt": "1.0.1",
@@ -23,6 +24,7 @@
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "rc": "1.0.1",
+    "request": "^2.75.0",
     "sails": "~0.12.6",
     "sails-disk": "~0.10.9",
     "sails-mongo": "^0.12.1"
