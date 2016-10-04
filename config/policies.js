@@ -33,6 +33,9 @@ module.exports.policies = {
     "process": true,
     "create": true
   },
+  "ChatController": {
+    "send": true
+  }
   // '*': true,
 
   /***************************************************************************

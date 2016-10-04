@@ -19,25 +19,34 @@ module.exports = {
 	},
 
 	connect: function(req, res) {
-		console.log(req.allParams());
 		User.findOne({id: req.param('userId')}).exec(function(err, user) {
 			if(err) {
 				return res.redirect('user');
 			} else {
 				if (user.friends && user.friends.includes(req.user.id)) {
 					console.log('api cll skipped');
-					return res.redirect('chat/' + user.id);
+					Channel.findOne({member: user.id, createdBy: req.user.id}).exec(function(err, channel) {
+						if(!channel){
+							Channel.findOne({member: req.user.id, createdBy: user.id}).exec(function(err, channel){
+								return res.redirect('chat/' + channel.id);
+							});
+						} else {
+							return res.redirect('chat/' + channel.id);
+						}
+					});
 				} else {
-					// user.addFriend(req.user.id)
-					// req.user.addFriend(user.id)
+					user.addFriend(req.user.id)
+					req.user.addFriend(user.id)
 					var webClient = require('@slack/client').WebClient;
 					var wc = new webClient(req.user.slackInfo.token);
 					wc.channels.join(user.name, function(err, info) {
+						console.log(info)
 						if(info.ok == true) {
 							var wc = new webClient(user.slackInfo.token);
+							Channel.create({slackChannelId: info.channel.id, createdBy: req.user.id, member: user.id, name: info.channel.name}).exec(console.log)
 							wc.channels.join(user.name)
 						}
-						return res.redirect('chat/' + user.id);
+						return res.redirect('chat/' + info.channel.id );
 					});
 				}
 			}
@@ -45,7 +54,19 @@ module.exports = {
 	},
 
 	chat: function(req, res) {
-		return res.view();
+		console.log(req.param('channelId'))
+		Message.find({channel: req.param('channelId')}).populateAll().exec(function(err, messages){
+			if(err){return res.redirect('user')}
+			return res.view({ messages: messages});
+		})
+		// Channel.findOne({id: req.param('channelId')}).populate('messages').exec(function(err, channel){
+		// 	if(err || !channel){return res.redirect('user')}
+		// 	console.log(channel)
+		// 	User.findOne({id: channel.member}).exec(function(err, receiver){
+		// 		console.log(receiver)
+		// 		return res.view({channel: channel, receiver: receiver});
+		// 	});
+		// });
 	},
 
 	create: function(req, res) {

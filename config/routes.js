@@ -43,7 +43,8 @@ module.exports.routes = {
   'get /user': 'UserController.index',
   'get /user/slack': 'UserController.slack',
   'get /user/connect/:userId': 'UserController.connect',
-  'get /chat/:userId': 'UserController.chat'
+  'get /msg/send': 'ChatController.send',
+  'get /chat/:channelId': 'UserController.chat'
 
   /***************************************************************************
   *                                                                          *
