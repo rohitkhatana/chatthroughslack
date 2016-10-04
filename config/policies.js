@@ -36,6 +36,9 @@ module.exports.policies = {
   "ChatController": {
     "send": true,
     "subscribe": true
+  },
+  "BotController" : {
+    "incoming": true
   }
   // '*': true,
 

@@ -47,6 +47,7 @@ module.exports.routes = {
   'get /msg/send': 'ChatController.send',
   'get /msg/subscribe': 'ChatController.subscribe',
   'get /chat/:channelId': 'UserController.chat',
+  'POST /bot/incoming': 'BotController.incoming'
 
   /***************************************************************************
   *                                                                          *
