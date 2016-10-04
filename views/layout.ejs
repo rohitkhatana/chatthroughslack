@@ -40,7 +40,16 @@
   </head>
 
   <body>
-
+    <%if (req.user) {%>
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">ChatThrough</a>
+        </div>
+          <p class="navbar-text pull-right">(<%= req.user.name%>)<a href="/logout" class="navbar-link">Logout</a></p>
+      </div>
+    </nav>
+    <%}%>
     <%- body %>
 
 

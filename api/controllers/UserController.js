@@ -48,7 +48,7 @@ module.exports = {
 
 	chat: function(req, res) {
 		Channel.findOne({id: req.param('channelId')}).populateAll().exec(function(err, channel){
-			if(err){return res.redirect('user')}
+			if(err || !channel){return res.redirect('user')}
 			Message.find({channel: channel.id}).populateAll().exec(function(err, messages){
 				if(err){return res.redirect('user')}
 				return res.view({ messages: messages, channel: channel});
@@ -118,6 +118,11 @@ module.exports = {
 			return res.view('user/login', {err: {}});
 		}
 	},
+
+	logout: function(req, res){
+    req.logOut();
+    res.redirect('/');
+  },
 
 	slack: function(req, res) {
 		slack_auth = {client_id: '86496927043.86497181619', client_secret: '8a7a14fe9edb8fb60418b2182e19f5ac', code: req.param('code')}

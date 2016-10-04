@@ -38,6 +38,7 @@ module.exports.routes = {
   'get /' : 'UserController.login',
   'get /login' : 'UserController.login',
   'post /login': 'UserController.process',
+  'get /logout': 'UserController.logout',
   'get /register': 'UserController.register',
   'post /user': 'UserController.create',
   'get /user': 'UserController.index',

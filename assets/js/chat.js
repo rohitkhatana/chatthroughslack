@@ -2,6 +2,7 @@
 function appendSentMsg() {
   generateAndAppendHTML({msg:  $("#msg").val(), sender: $("#send").data('sender-name'), class: "left"})
   $("#msg").val("");
+  $(".panel-body").animate({scrollTop: 100000})
 }
 
 function generateAndAppendHTML(data) {

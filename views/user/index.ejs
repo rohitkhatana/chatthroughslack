@@ -8,9 +8,11 @@
         </a>
       </h2>
       <%} else {%>
-        <% _.each(_.filter(users, function(user){return user.id != req.user.id}), function(user) {%>
-          <a href="/user/connect/<%= user.id %>"><%= user.name %><br>
-        <%}) %>
+        <ul>
+          <% _.each(_.filter(users, function(user){return user.id != req.user.id}), function(user) {%>
+            <h2><li><a href="/user/connect/<%= user.id %>"><%= user.name %><br></li></h2>
+          <%}) %>
+        </ul>
         <% if(users.length == 1) {%>
           <h2>There is no any other users to chat!</h2>
         <%}%>
