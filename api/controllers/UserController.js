@@ -112,7 +112,11 @@ module.exports = {
   },
 
 	login: function(req, res) {
-		return res.view('user/login', {err: {}});
+		if(req.user) {
+			return res.redirect('user');
+		}else{
+			return res.view('user/login', {err: {}});
+		}
 	},
 
 	slack: function(req, res) {

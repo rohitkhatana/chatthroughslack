@@ -20,43 +20,43 @@
                       <div class="header">
                         <strong class="primary-font"><%= message.sender.name %></strong>
                       </div>
-                        <p>
-                          <%= message.msg %>
-                        </p>
-                    </div>
-                  </li>
-                <%} else {%>
-                  <li class="right clearfix">
-                    <div class="chat-body clearfix">
-                      <div class="header">
-                        <strong class="primary-font"><%= message.sender.name %></strong>
-                      </div>
                       <p>
-                          <%= message.msg %>
+                        <%= message.msg %>
                       </p>
                     </div>
                   </li>
-                <%}%>
-              <%})%>
-        </ul>
-      </div>
-      <div class="panel-footer">
-        <div class="input-group">
-          <input id="msg" type="text" class="form-control input-sm" placeholder="Type your message here..." />
-          <span class="input-group-btn">
-            <button class="btn btn-warning btn-sm" id="send" data-channel="<%= channel.slackChannelId %>"
-              data-sender="<%=req.user.id %>"
-              data-sender-name="<%= req.user.name %>"
-              data-receiver-name="<%= (channel.member.id == req.user.id) ? channel.createdBy.name : channel.member.name %>"
-              >
-              Send</button>
-            </span>
+                  <%} else {%>
+                    <li class="right clearfix">
+                      <div class="chat-body clearfix">
+                        <div class="header">
+                          <strong class="primary-font"><%= message.sender.name %></strong>
+                        </div>
+                        <p>
+                          <%= message.msg %>
+                        </p>
+                      </div>
+                    </li>
+                  <%}%>
+                <%})%>
+              </ul>
+            </div>
+            <div class="panel-footer">
+              <div class="input-group">
+                <input id="msg" type="text" class="form-control input-sm" placeholder="Type your message here..." />
+                <span class="input-group-btn">
+                  <button class="btn btn-warning btn-sm" id="send" data-channel="<%= channel.slackChannelId %>"
+                    data-sender="<%=req.user.id %>"
+                    data-sender-name="<%= req.user.name %>"
+                    data-receiver-name="<%= (channel.member.id == req.user.id) ? channel.createdBy.name : channel.member.name %>">
+                    Send
+                  </button>
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
   </div>
-</div>
 </div>
 
 <script id="send-template" type="text/x-handlebars-template">
@@ -65,9 +65,9 @@
       <div class="header">
         <strong class="primary-font">{{sender}}</strong>
       </div>
-        <p>
-          {{msg}}
-        </p>
+      <p>
+        {{msg}}
+      </p>
     </div>
   </li>
 </script>
