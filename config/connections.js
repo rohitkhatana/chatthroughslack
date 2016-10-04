@@ -58,8 +58,10 @@ module.exports.connections = {
   ***************************************************************************/
   chatDb: {
   	adapter: 'sails-mongo',
-  	host: 'localhost',
-  	port: 27017
+  	// host: 'localhost',
+  	// port: 27017,
+    url: process.env.DB_URL
+
   //   user: 'username', //optional
   //   password: 'password', //optional
   //   database: 'your_mongo_db_name_here' //optional

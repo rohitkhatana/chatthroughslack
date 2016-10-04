@@ -9,9 +9,7 @@ var RtmClient = require('@slack/client').RtmClient;
 module.exports = {
 	send: function(req, res) {
 		if (!req.isSocket) {return res.badRequest();}
-		// console.log(req.allParams());
 		User.findOne({id: req.param('sender')}).exec(function(err, sender){
-			// sails.sockets.join(req, 'msgSockets');
 			var RTM_CLIENT_EVENTS = require('@slack/client').CLIENT_EVENTS.RTM;
 			var rtm = new RtmClient(sender.slackInfo.token);
 			rtm.start();
@@ -19,7 +17,6 @@ module.exports = {
 				rtm.sendMessage(req.param('msg'), req.param('channelId'), function msgSent(){
 				})
 			})
-			// sails.sockets.broadcast('msgSockets', 'msgSockets', {id: "my id"}, req);
 			Channel.findOne({slackChannelId: req.param('channelId')}).exec(function(err, channel){
 				if(channel) {
 					if (channel.createdBy == req.param('sender')) {

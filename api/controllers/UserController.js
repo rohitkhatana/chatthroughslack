@@ -1,12 +1,6 @@
-/**
- * UserController
- *
- * @description :: Server-side logic for managing users
- * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
- */
 var passport = require('passport');
 var request = require('request');
-// var slack = require('slack');
+
 module.exports = {
 	register: function(req, res) {
 		return res.view({err: {}});
@@ -40,7 +34,6 @@ module.exports = {
 					var webClient = require('@slack/client').WebClient;
 					var wc = new webClient(req.user.slackInfo.token);
 					wc.channels.join(user.name, function(err, info) {
-						console.log(info)
 						if(info.ok == true) {
 							var wc = new webClient(user.slackInfo.token);
 							Channel.create({slackChannelId: info.channel.id, createdBy: req.user.id, member: user.id, name: info.channel.name}).exec(console.log)
@@ -54,25 +47,15 @@ module.exports = {
 	},
 
 	chat: function(req, res) {
-		console.log(req.param('channelId'))
 		Message.find({channel: req.param('channelId')}).populateAll().exec(function(err, messages){
 			if(err){return res.redirect('user')}
 			return res.view({ messages: messages});
 		})
-		// Channel.findOne({id: req.param('channelId')}).populate('messages').exec(function(err, channel){
-		// 	if(err || !channel){return res.redirect('user')}
-		// 	console.log(channel)
-		// 	User.findOne({id: channel.member}).exec(function(err, receiver){
-		// 		console.log(receiver)
-		// 		return res.view({channel: channel, receiver: receiver});
-		// 	});
-		// });
 	},
 
 	create: function(req, res) {
 		User.create(req.allParams()).exec(function(err, user) {
 			if(err) {
-				console.log(err);
 				return res.view('user/register', {err: {message: "Email already taken"}});
 			} else {
 				passport.authenticate('local', function(err, user, info) {
@@ -99,7 +82,6 @@ module.exports = {
 	},
 
 	process: function(req, res){
-
     passport.authenticate('local', function(err, user, info){
       if(err || (!user) ){
         res.format({
@@ -131,7 +113,6 @@ module.exports = {
 	},
 
 	slack: function(req, res) {
-
 		slack_auth = {client_id: '86496927043.86497181619', client_secret: '8a7a14fe9edb8fb60418b2182e19f5ac', code: req.param('code')}
 		request({url: 'https://slack.com/api/oauth.access', qs: slack_auth}, function(err, response, body) {
 			console.log(err);
