@@ -44,10 +44,10 @@
         <div class="input-group">
           <input id="msg" type="text" class="form-control input-sm" placeholder="Type your message here..." />
           <span class="input-group-btn">
-            <button class="btn btn-warning btn-sm" id="send" data-channel="<%= messages[0].channel.slackChannelId %>"
+            <button class="btn btn-warning btn-sm" id="send" data-channel="<%= channel.slackChannelId %>"
               data-sender="<%=req.user.id %>"
               data-sender-name="<%= req.user.name %>"
-              data-receiver-name="<%= messages[0].receiver.name %>"
+              data-receiver-name="<%= (channel.member.id == req.user.id) ? channel.createdBy.name : channel.member.name %>"
               >
               Send</button>
             </span>

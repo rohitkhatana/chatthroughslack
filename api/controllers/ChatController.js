@@ -27,7 +27,7 @@ module.exports = {
 						var receiver = channel.createdBy;
 					}
 					Message.create({sender: sender, receiver: receiver, channel: channel.id, msg: req.param('msg')}).exec(function(err, msg) {
-						Message.publishCreate({id: msg.id, msg: req.param('msg'), sender: msg.sender, senderName: sender.name, channel: channel.slackChannelId});
+						Message.publishCreate({id: msg.id, msg: req.param('msg'), sender: msg.sender, channel: channel.slackChannelId});
 					});
 				}
 			});

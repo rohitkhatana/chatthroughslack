@@ -47,10 +47,13 @@ module.exports = {
 	},
 
 	chat: function(req, res) {
-		Message.find({channel: req.param('channelId')}).populateAll().exec(function(err, messages){
+		Channel.findOne({id: req.param('channelId')}).populateAll().exec(function(err, channel){
 			if(err){return res.redirect('user')}
-			return res.view({ messages: messages});
-		})
+			Message.find({channel: channel.id}).populateAll().exec(function(err, messages){
+				if(err){return res.redirect('user')}
+				return res.view({ messages: messages, channel: channel});
+			})
+		});
 	},
 
 	create: function(req, res) {
