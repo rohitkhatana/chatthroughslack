@@ -29,13 +29,17 @@ module.exports = {
 						var sender = channel.member;
 						var receiver = channel.createdBy;
 					}
-					Message.create({sender: sender, receiver: receiver, channel: channel.id, msg: req.param('msg')}).exec(console.log);
+					Message.create({sender: sender, receiver: receiver, channel: channel.id, msg: req.param('msg')}).exec(function(err, msg) {
+						Message.publishCreate({id: msg.id, msg: req.param('msg'), sender: msg.sender, senderName: sender.name, channel: channel.slackChannelId});
+					});
 				}
 			});
 			return res.send({msg: "ok"})
 		})
 
+	},
+	subscribe: function(req, res) {
+		if(!req.isSocket) {return res.badRequest();}
+		Message.watch(req);
 	}
 };
-
-// EA935260297IN

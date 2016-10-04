@@ -47,6 +47,7 @@
             <button class="btn btn-warning btn-sm" id="send" data-channel="<%= messages[0].channel.slackChannelId %>"
               data-sender="<%=req.user.id %>"
               data-sender-name="<%= req.user.name %>"
+              data-receiver-name="<%= messages[0].receiver.name %>"
               >
               Send</button>
             </span>
@@ -57,8 +58,9 @@
   </div>
 </div>
 </div>
+
 <script id="send-template" type="text/x-handlebars-template">
-  <li class="left clearfix">
+  <li class="{{class}} clearfix">
     <div class="chat-body clearfix">
       <div class="header">
         <strong class="primary-font">{{sender}}</strong>
@@ -68,4 +70,10 @@
         </p>
     </div>
   </li>
+</script>
+
+<script>
+  $(document).ready(function(){
+    initChat({id: '<%= req.user.id %>', name: '<%= req.user.name %>'});
+  });
 </script>
