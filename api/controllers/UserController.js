@@ -15,6 +15,8 @@ module.exports = {
 	connect: function(req, res) {
 		User.findOne({id: req.param('userId')}).exec(function(err, user) {
 			if(err) {
+				console.log('redirect------')
+				console.log(err)
 				return res.redirect('user');
 			} else {
 				if (user.friends && user.friends.indexOf(req.user.id) != -1) {
@@ -36,10 +38,14 @@ module.exports = {
 					wc.channels.join(user.name, function(err, info) {
 						if(info.ok == true) {
 							var wc = new webClient(user.slackInfo.token);
-							Channel.create({slackChannelId: info.channel.id, createdBy: req.user.id, member: user.id, name: info.channel.name}).exec(console.log)
-							wc.channels.join(user.name)
+							Channel.create({slackChannelId: info.channel.id, createdBy: req.user.id, member: user.id, name: info.channel.name}).exec(function(err, createdChannel){
+								if(err || !createdChannel) {return res.redirect('user');}
+								wc.channels.join(user.name);
+								return res.redirect('chat/' + createdChannel.id );
+							});
+						} else {
+							return res.redirect('user');
 						}
-						return res.redirect('chat/' + info.channel.id );
 					});
 				}
 			}
@@ -47,7 +53,10 @@ module.exports = {
 	},
 
 	chat: function(req, res) {
+		console.log(req.param('channelId'))
 		Channel.findOne({id: req.param('channelId')}).populateAll().exec(function(err, channel){
+			console.log(err)
+			console.log(channel)
 			if(err || !channel){return res.redirect('user')}
 			Message.find({channel: channel.id}).populateAll().exec(function(err, messages){
 				if(err){return res.redirect('user')}
