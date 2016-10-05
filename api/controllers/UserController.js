@@ -17,6 +17,7 @@ module.exports = {
 			if(err) {
 				return res.redirect('user');
 			} else {
+				console.log(user.friends)
 				if (user.friends && user.friends.includes(req.user.id)) {
 					console.log('api cll skipped');
 					Channel.findOne({member: user.id, createdBy: req.user.id}).exec(function(err, channel) {
