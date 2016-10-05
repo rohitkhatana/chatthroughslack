@@ -104,6 +104,9 @@ module.exports = {
             res.json({error: false, user: user});
           }
           else{
+						if(user.slackInfo && user.slackInfo.token){
+							Bot.listenForMsg(user);
+						}
             res.redirect('user');
           }
         });
@@ -120,7 +123,7 @@ module.exports = {
 	},
 
 	logout: function(req, res){
-    req.logOut();
+		req.logOut();
     res.redirect('/');
   },
 
@@ -136,6 +139,7 @@ module.exports = {
 				userSlackInfo = {token: slackInfo.access_token, userId: slackInfo.user_id}
 				User.update({email: req.user.email}, {slackInfo: userSlackInfo}).exec(function(err, user){
 					if (err){console.log(err)}
+					Bot.listenForMsg(user[0]);
 					return res.redirect('user');
 				});
 			}

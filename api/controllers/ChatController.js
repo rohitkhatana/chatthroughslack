@@ -16,20 +16,6 @@ module.exports = {
 			rtm.on(RTM_CLIENT_EVENTS.RTM_CONNECTION_OPENED, function () {
 				rtm.sendMessage(req.param('msg'), req.param('channelId'), function msgSent(){
 				})
-			})
-			Channel.findOne({slackChannelId: req.param('channelId')}).exec(function(err, channel){
-				if(channel) {
-					if (channel.createdBy == req.param('sender')) {
-						var sender = channel.createdBy;
-						var receiver = channel.member;
-					} else {
-						var sender = channel.member;
-						var receiver = channel.createdBy;
-					}
-					Message.create({sender: sender, receiver: receiver, channel: channel.id, msg: req.param('msg')}).exec(function(err, msg) {
-						Message.publishCreate({id: msg.id, msg: req.param('msg'), sender: msg.sender, channel: channel.slackChannelId});
-					});
-				}
 			});
 			return res.send({msg: "ok"})
 		})

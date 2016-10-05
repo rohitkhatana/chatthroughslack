@@ -9,6 +9,7 @@ module.exports = {
     channel: {
       model: 'channel'
     },
-    msg: {type: 'string'}
+    msg: {type: 'string'},
+    ts: {type: 'string'}
   }
 }
