@@ -15,12 +15,9 @@ module.exports = {
 	connect: function(req, res) {
 		User.findOne({id: req.param('userId')}).exec(function(err, user) {
 			if(err) {
-				console.log('redirect------')
-				console.log(err)
 				return res.redirect('user');
 			} else {
 				if (user.friends && user.friends.indexOf(req.user.id) != -1) {
-					console.log('api cll skipped');
 					Channel.findOne({member: user.id, createdBy: req.user.id}).exec(function(err, channel) {
 						if(!channel){
 							Channel.findOne({member: req.user.id, createdBy: user.id}).exec(function(err, channel){
@@ -53,10 +50,7 @@ module.exports = {
 	},
 
 	chat: function(req, res) {
-		console.log(req.param('channelId'))
 		Channel.findOne({id: req.param('channelId')}).populateAll().exec(function(err, channel){
-			console.log(err)
-			console.log(channel)
 			if(err || !channel){return res.redirect('user')}
 			Message.find({channel: channel.id}).populateAll().exec(function(err, messages){
 				if(err){return res.redirect('user')}
@@ -137,11 +131,9 @@ module.exports = {
   },
 
 	slack: function(req, res) {
-		slack_auth = {client_id: '86496927043.86497181619', client_secret: '8a7a14fe9edb8fb60418b2182e19f5ac', code: req.param('code')}
+		slack_auth = {client_id: process.env.SLACK_CLIENT_ID, client_secret: process.env.SLACK_CLIENT_SECRET, code: req.param('code')}
 		request({url: 'https://slack.com/api/oauth.access', qs: slack_auth}, function(err, response, body) {
-			console.log(err);
 			slackInfo = JSON.parse(body)
-			console.log(body);
 			if(err || slackInfo.ok == false) {
 				console.log(err); return res.redirect('user');
 			} else {
